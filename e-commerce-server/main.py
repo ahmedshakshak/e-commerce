@@ -8,4 +8,7 @@ def create_tables():
     db.create_all()
     print('tables has been created')
 
+if __name__ == '__main__':
+    app.run()
+
 
