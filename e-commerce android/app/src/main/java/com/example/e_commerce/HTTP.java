@@ -13,10 +13,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class HTTP {
-    public static String url = "http://10.0.2.2:5000/api" + "/register";
+import java.net.URL;
 
-    static public void post(Context context, JSONObject postData, Response.Listener resListener) {
+public class HTTP {
+    private static final String BASE_URL = "http://10.0.2.2:5000/api";
+    public static final String REGISTER_URl = HTTP.BASE_URL + "/register";
+    public static final String LOGIN_URl = HTTP.BASE_URL + "/login";
+
+    static public void post(Context context, String URL, JSONObject postData, Response.Listener resListener) {
        try {
            postData.put("Content-Type", "application/json; charset=utf-8");
        } catch (JSONException e) {
@@ -32,7 +36,7 @@ public class HTTP {
             }
         };
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, HTTP.url, postData, resListener, resErr);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, resListener, resErr);
         requestQueue.add(jsonObjectRequest);
     }
 }

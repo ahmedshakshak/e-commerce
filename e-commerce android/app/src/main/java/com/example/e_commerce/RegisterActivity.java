@@ -1,8 +1,7 @@
 package com.example.e_commerce;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -14,26 +13,21 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONArray;
+import com.android.volley.Response;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
 
-
-public class MainActivity extends AppCompatActivity {
-
+public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+
         final EditText editTextFirstName = (EditText) findViewById( R.id.editText_first_name );
         final EditText editTextLastName = (EditText) findViewById( R.id.editText_last_name );
         final EditText editTextUsername = (EditText) findViewById( R.id.editText_username );
@@ -50,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
-                new DatePickerDialog( MainActivity.this,
+                new DatePickerDialog( RegisterActivity.this,
                         R.style.Theme_AppCompat_DayNight_Dialog_MinWidth,
                         new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        editTextBirthDay.setText( String.valueOf( year ) + '-' + String.valueOf( month ) + '-' + String.valueOf( day ) );
-                    }
-                }, year, month, day ).show();
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                editTextBirthDay.setText( String.valueOf( year ) + '-' + String.valueOf( month + 1 ) + '-' + String.valueOf( day ) );
+                            }
+                        }, year, month, day ).show();
 
 
             }
@@ -74,16 +68,20 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                String accessToken = response.getString( "access_token" );
-                                String refreshToken = response.getString( "refresh_token" );
+                                String accessToken = response.getString( Constants.accessToken );
+                                String refreshToken = response.getString( Constants.refreshToken );
 
-                                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE);
                                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
 
-                                myEdit.putString( "access_token", accessToken);
-                                myEdit.putString( "refresh_token", refreshToken);
+                                myEdit.putString( Constants.accessToken, accessToken);
+                                myEdit.putString( Constants.refreshToken, refreshToken);
                                 myEdit.commit();
 
+                                Toast.makeText(RegisterActivity.this, "Registered successfully",
+                                        Toast.LENGTH_LONG).show();
+                                Intent login = new Intent( RegisterActivity.this, LoginActivity.class );
+                                startActivity( login );
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -101,20 +99,20 @@ public class MainActivity extends AppCompatActivity {
                         postData.put("password", editTextPassword.getText().toString());
                         postData.put("birthdate", editTextBirthDay.getText().toString());
                         postData.put("job", editTextJob.getText().toString());
-
                         int selectedId = radioGroupgender.getCheckedRadioButtonId();
                         RadioButton radioGeneder = (RadioButton)findViewById(selectedId);
                         postData.put("gender", radioGeneder.getText().toString());
 
-                        HTTP.post( MainActivity.this, postData, res );
+                        HTTP.post( RegisterActivity.this, HTTP.REGISTER_URl , postData, res );
                     } catch (JSONException e) {
+                        System.out.println( "Error" );
                         e.printStackTrace();
 
                     }
 
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "All Fields are Required",
+                    Toast.makeText(RegisterActivity.this, "All Fields are Required",
                             Toast.LENGTH_LONG).show();
 
                 }
@@ -128,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
             View view = group.getChildAt(i);
             if (view instanceof EditText) {
                 if(((EditText) view).getText().toString().isEmpty()) {
+                    return false;
+                }
+            }
+            else if(view instanceof RadioGroup) {
+                if(((RadioGroup) view).getCheckedRadioButtonId() == -1) {
                     return false;
                 }
             }
