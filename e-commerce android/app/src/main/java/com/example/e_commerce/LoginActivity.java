@@ -3,7 +3,6 @@ package com.example.e_commerce;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,22 +33,22 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String accessToken = response.getString( Constants.accessToken );
-                            String refreshToken = response.getString( Constants.refreshToken );
+                            String accessToken = response.getString( Constants.ACCESS_TOKEN );
+                            String refreshToken = response.getString( Constants.REFRESH_TOKEN );
                             boolean rememberMe = ((CheckBox) findViewById( R.id.checkBox_remember_me )).isChecked();
 
                             SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE);
                             SharedPreferences.Editor myEdit = sharedPreferences.edit();
 
-                            myEdit.putString( Constants.accessToken, accessToken);
-                            myEdit.putString( Constants.refreshToken, refreshToken);
-                            myEdit.putBoolean( Constants.rememberMe, rememberMe);
+                            myEdit.putString( Constants.ACCESS_TOKEN, accessToken);
+                            myEdit.putString( Constants.REFRESH_TOKEN, refreshToken);
+                            myEdit.putBoolean( Constants.REMEMBER_ME, rememberMe);
                             myEdit.commit();
                             Toast.makeText( LoginActivity.this, "Logged-in successfully",
                                     Toast.LENGTH_LONG).show();
                             Intent product = new Intent( LoginActivity.this, ProductActivity.class );
-                            product.putExtra( Constants.accessToken, accessToken );
-                            product.putExtra( Constants.refreshToken, refreshToken );
+                            product.putExtra( Constants.ACCESS_TOKEN, accessToken );
+                            product.putExtra( Constants.REFRESH_TOKEN, refreshToken );
                             startActivity( product );
 
 
@@ -71,6 +70,16 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
 
                 }
+            }
+        } );
+
+        Button btnForgetPassword = (Button) findViewById( R.id.button_forget_password );
+        btnForgetPassword.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println( "a7na gowa el button now" );
+                Intent resetPassword = new Intent( LoginActivity.this, ResetPasswordActivity.class );
+                startActivity( resetPassword );
             }
         } );
     }

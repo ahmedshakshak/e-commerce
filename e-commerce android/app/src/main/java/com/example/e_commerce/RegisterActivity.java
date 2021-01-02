@@ -68,14 +68,14 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                String accessToken = response.getString( Constants.accessToken );
-                                String refreshToken = response.getString( Constants.refreshToken );
+                                String accessToken = response.getString( Constants.ACCESS_TOKEN );
+                                String refreshToken = response.getString( Constants.REFRESH_TOKEN );
 
                                 SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE);
                                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
 
-                                myEdit.putString( Constants.accessToken, accessToken);
-                                myEdit.putString( Constants.refreshToken, refreshToken);
+                                myEdit.putString( Constants.ACCESS_TOKEN, accessToken);
+                                myEdit.putString( Constants.REFRESH_TOKEN, refreshToken);
                                 myEdit.commit();
 
                                 Toast.makeText(RegisterActivity.this, "Registered successfully",

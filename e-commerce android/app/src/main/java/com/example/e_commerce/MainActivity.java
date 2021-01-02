@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.concurrent.CompletionService;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,14 +18,14 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME,
                                                                     MODE_PRIVATE);
-        String accessToken = sharedPreferences.getString(Constants.accessToken, "");
-        String refreshToken = sharedPreferences.getString(Constants.refreshToken, "");
-        Boolean rememberMe= sharedPreferences.getBoolean(Constants.rememberMe, false);
+        String accessToken = sharedPreferences.getString(Constants.ACCESS_TOKEN, "");
+        String refreshToken = sharedPreferences.getString(Constants.REFRESH_TOKEN, "");
+        Boolean rememberMe= sharedPreferences.getBoolean(Constants.REMEMBER_ME, false);
 
         if(rememberMe) {
             Intent product = new Intent( MainActivity.this, ProductActivity.class );
-            product.putExtra( Constants.accessToken, accessToken );
-            product.putExtra( Constants.refreshToken, refreshToken );
+            product.putExtra( Constants.ACCESS_TOKEN, accessToken );
+            product.putExtra( Constants.REFRESH_TOKEN, refreshToken );
             startActivity( product );
         }
 
