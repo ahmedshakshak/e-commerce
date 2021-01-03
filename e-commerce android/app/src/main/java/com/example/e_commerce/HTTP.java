@@ -1,6 +1,8 @@
 package com.example.e_commerce;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -8,13 +10,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +30,7 @@ public class HTTP {
     public static final String LOGIN_URl = HTTP.BASE_URL + "/login";
     public static final String RESET_PASSWORD = HTTP.BASE_URL + "/reset-password";
     public static final String UPDATE_PASSWORD = HTTP.BASE_URL + "/update-password";
+    public static final String PRODUCTS = HTTP.BASE_URL + "/products";
 
 
     static public void post(Context context, String URL, JSONObject postData, Response.Listener resListener) {
@@ -67,4 +74,21 @@ public class HTTP {
         }
     }
 
+    public static String addLocationToUrl(String url, HashMap<String, String> params){
+        if(!url.endsWith("?"))
+            url += "?";
+
+        String paramString = "";
+        for(String key: params.keySet()) {
+            try {
+                String value = params.get( key );
+                paramString += URLEncoder.encode( key, "UTF-8" ) + "=" + URLEncoder.encode( value, "UTF-8" ) ;
+            }catch (Exception e){
+
+            }
+        }
+
+        url += paramString;
+        return url;
+    }
 }
