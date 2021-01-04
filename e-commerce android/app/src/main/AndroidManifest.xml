@@ -17,6 +17,8 @@
         <activity android:name=".ProductActivity"></activity>
         <activity android:name=".UpdatePasswordActivity"></activity>
         <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".CartActivity"></activity>
+
         <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

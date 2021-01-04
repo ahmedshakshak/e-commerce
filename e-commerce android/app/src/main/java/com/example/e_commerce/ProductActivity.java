@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,6 +35,15 @@ public class ProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.listview );
+
+        Button btn_to_cart = (Button) findViewById( R.id.button_to_the_cart );
+        btn_to_cart.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cart = new Intent( ProductActivity.this, CartActivity.class );
+                startActivity( cart );
+            }
+        } );
 
         final RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = get(HTTP.PRODUCTS);

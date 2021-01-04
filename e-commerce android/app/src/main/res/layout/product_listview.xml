@@ -69,13 +69,34 @@
 
     <Button
         android:id="@+id/button_add_to_cart"
+        android:layout_width="57dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="40dp"
+        android:text="+"
+        app:layout_constraintStart_toEndOf="@+id/textView_quantity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_remove_from_cart"
+        android:layout_width="57dp"
+        android:layout_height="31dp"
+        android:text="-"
+        app:layout_constraintStart_toStartOf="@+id/button_add_to_cart"
+        app:layout_constraintTop_toBottomOf="@+id/button_add_to_cart" />
+
+    <TextView
+        android:id="@+id/textView_current_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="232dp"
-        android:layout_marginLeft="232dp"
-        android:layout_marginTop="56dp"
-        android:text="Add to Cart"
+        android:layout_marginStart="240dp"
+        android:layout_marginLeft="240dp"
+        android:layout_marginTop="16dp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/button_remove_from_cart"
         app:layout_constraintStart_toEndOf="@+id/textView_category_name"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/button_add_to_cart"
+        app:layout_constraintVertical_bias="0.111" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
