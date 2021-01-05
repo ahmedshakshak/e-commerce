@@ -1,11 +1,14 @@
 from flask_restful import Resource, reqparse, marshal_with , fields
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import request
-import json
+from flask_mail import Message
+from threading import Thread
 
 from app.db.category import *
 from app.db.product import *
-from app import api
+from app.db.customer import *
+from app import api, app
+from app.routes.auth import ResetPassword
 
 product_fields = {
     'id': fields.String(attribute=lambda x: x.id),
@@ -58,7 +61,15 @@ class ProductsResource(Resource):
         for query in queries:
             query.save()
 
-        return {'message': 'Ordered successfully'}
+        username = get_jwt_identity()
+        customer = Customer.find_by_username(username)
+        msg = Message()
+        msg.subject = "Reset Your Password"
+        msg.recipients = [customer.email]
+        msg.sender = 'ecommerce.4th.year.fcis@gmail.com'
+        msg.body = 'Your order has been recorded'
+        Thread(target=ResetPassword.send_email, args=(app, msg)).start()
+        return {'message': 'Ordered successfully and an email has been sent to you'}
 
 
 
