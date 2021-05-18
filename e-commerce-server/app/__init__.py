@@ -14,7 +14,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "ecommerce.4th.year.fcis@gmail.com"
-app.config['MAIL_PASSWORD'] = "kjdfgdl;fg,;,.3-r--230fd"
+app.config['MAIL_PASSWORD'] = "kjdfgdl;fg,;3-r--230fd"
 mail = Mail(app)
 
 
